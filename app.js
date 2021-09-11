@@ -17,7 +17,7 @@ db();
 const userRouter = require("./router/user");
 
 const port = process.env.PORT || 4000;
-app.use("/", Router);
+app.use("/api", userRouter);
 app.listen(port, () => {
   console.log(`hello from server http://127.0.0.1:${port}`);
 });
