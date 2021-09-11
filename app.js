@@ -5,7 +5,7 @@ const dotenv = require("dotenv");
 const app = express();
 dotenv.config();
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
+app.use(express.urlencoded({ extended: false }));
 // here is the cors we can communicate to other port
 app.use(cors());
 
@@ -13,10 +13,11 @@ app.use(cors());
 const db = require("./db");
 db();
 // router used
-const userRouter = require("./router/user");
+// const userRouter = require("./router/user");
+const Router = require("./router");
 
 const port = process.env.PORT || 4000;
-app.use("/api", userRouter);
+app.use("/", Router);
 app.listen(port, () => {
   console.log(`hello from server http://127.0.0.1:${port}`);
 });
