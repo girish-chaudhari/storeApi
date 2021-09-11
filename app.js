@@ -14,7 +14,7 @@ const db = require("./db");
 db();
 // router used
 // const userRouter = require("./router/user");
-const Router = require("./router");
+const userRouter = require("./router/user");
 
 const port = process.env.PORT || 4000;
 app.use("/", Router);
