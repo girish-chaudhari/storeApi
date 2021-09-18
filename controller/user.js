@@ -3,34 +3,41 @@ const responseHandler = require("../config");
 const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res, next) => {
+ try{
   const newUser = user(req.body);
   const savedUser = await newUser.save();
   responseHandler(res, 200, "user registered successfully ", savedUser);
-  //   res.send(savedUser);
+ }catch(error){
+  responseHandler(res, 500, "something went wrong", {}) 
+ }
 };
+
 exports.signin = async (req, res, next) => {
-  try {
-    const isUser = await user.findOne({ email: req.body.email });
-    if (isUser) {
-      if (req.body.password === isUser.password) {
+  try{
+    const authUser = await user.findOne({email: req.body.email})  
+    if(authUser){
+      if(req.body.password === authUser.password){
         const token = jwt.sign(
-          { userId: isUser._id },
-          process.env.JWT_SECRETE,
-          {
-            expiresIn: "1d",
-          }
-        );
-        responseHandler(res, 200, "user logged in success ", { token, isUser });
-      } else {
-        responseHandler(res, 401, "Sorry invalid Credential ", {});
+          {userId :authUser._id},
+          process.env.JWT_SECRET,
+          {expiresIn : '1d'}
+        )
+        return  responseHandler(res, 200, "logged in successfully", {token})
+      }else{
+        responseHandler(res, 401, "invalid credential", {})
       }
-    } else {
-      responseHandler(res, 404, "Sorry no user Found", {});
+
+    }else{
+      return responseHandler(res, 404, "user not found", {})
+      
     }
-  } catch (err) {
-    responseHandler(res, 500, "something went wrong ", {});
   }
+  catch(err){
+    return responseHandler(res, 500, "something went wrong", {})
+  }
+  
 };
+
 exports.contact = (req, res, next) => {
   try {
     responseHandler(res, 200, "success ", { message: "success" });

@@ -13,11 +13,11 @@ app.use(cors());
 const db = require("./db");
 db();
 // router used
+const v_Router = require("./router");
 // const userRouter = require("./router/user");
-const userRouter = require("./router/user");
 
 const port = process.env.PORT || 4000;
-app.use("/api", userRouter);
+app.use("/api", v_Router);
 app.listen(port, () => {
   console.log(`hello from server http://127.0.0.1:${port}`);
 });
