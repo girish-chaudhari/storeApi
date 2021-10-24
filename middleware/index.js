@@ -12,3 +12,14 @@ exports.auth = (req, res, next) => {
     responseHandler(res, 500, "something went wrong", {});
   }
 };
+
+exports.adminAuth = (req, res, next) => {
+  if (req.headers.authorization) {
+    const token = req.header.authorization.split(" ")[1];
+    const admin = jwt.verify(token, process.env.JWT_SECRETE);
+    req.admin = admin;
+    next();
+  } else {
+    responseHandler(res, 500, "something went wrong", {});
+  }
+};
